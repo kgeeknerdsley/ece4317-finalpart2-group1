@@ -8,11 +8,14 @@ class Puzzle:
         return self.board
 
     #Takes in itself, checks the board, and returns bool if the goal state or not
+    #CHANGE THIS TO ADJUST PUZZLE INPUT
     def isGoal(self):
         goalBoard = [[1,2,3],[8,0,4],[7,6,5]] #Assignment goal board!
         goalBoardInorder = [[1,2,3],[4,5,6],[7,8,0]] #inorder goal board
+        goalBoardInorder2 = [[0,1,2],[3,4,5],[6,7,8]] #Used for final part 2, question 4
+        goalBoardFifteen = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
 
-        return self.boardsEqual(goalBoard)
+        return self.boardsEqual(goalBoardInorder2)
 
     #Takes in itself, returns list of possible moves to make
     #return type is Puzzle
@@ -81,7 +84,8 @@ class Puzzle:
         possibleOptions = self.getNeighbors()
         
         for boardUT in possibleOptions:
-            currentManhattan = boardUT.getManhattan()
+            #boardUT.printBoard()
+            currentManhattan = boardUT.getManhattanGeneral()
             
             if(temp > currentManhattan):
                 temp = currentManhattan
@@ -116,37 +120,47 @@ class Puzzle:
                 #1 case
                 if(self.board[row][col] == 1):
                     idealRow = 0
-                    idealCol = 0
+                    idealCol = 1
 
                     mRow = abs(idealRow - row)
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 1 is: " + str(mRow+mCol))
+                    #print("Manhattan for 1 is: " + str(mRow+mCol))
 
                 #2 case
                 elif(self.board[row][col] == 2):
                     idealRow = 0
-                    idealCol = 1
+                    idealCol = 2
 
                     mRow = abs(idealRow - row)
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 2 is: " + str(mRow+mCol))
+                    #print("Manhattan for 2 is: " + str(mRow+mCol))
 
                 #3 case
                 elif(self.board[row][col] == 3):
-                    idealRow = 0
-                    idealCol = 2
+                    idealRow = 1
+                    idealCol = 0
 
                     mRow = abs(idealRow - row)
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 3 is: " + str(mRow+mCol))
+                    #print("Manhattan for 3 is: " + str(mRow+mCol))
 
                 elif(self.board[row][col] == 4):
+                    idealRow = 1
+                    idealCol = 1
+
+                    mRow = abs(idealRow - row)
+                    mCol = abs(idealCol - col)
+
+                    manhattan = manhattan + mRow + mCol
+                    #print("Manhattan for 4 is: " + str(mRow+mCol))
+
+                elif(self.board[row][col] == 5):
                     idealRow = 1
                     idealCol = 2
 
@@ -154,19 +168,19 @@ class Puzzle:
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 4 is: " + str(mRow+mCol))
+                    #print("Manhattan for 5 is: " + str(mRow+mCol))
 
-                elif(self.board[row][col] == 5):
+                elif(self.board[row][col] == 6):
                     idealRow = 2
-                    idealCol = 2
+                    idealCol = 0
 
                     mRow = abs(idealRow - row)
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 5 is: " + str(mRow+mCol))
+                    #print("Manhattan for 6 is: " + str(mRow+mCol))
 
-                elif(self.board[row][col] == 6):
+                elif(self.board[row][col] == 7):
                     idealRow = 2
                     idealCol = 1
 
@@ -174,29 +188,53 @@ class Puzzle:
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 6 is: " + str(mRow+mCol))
-
-                elif(self.board[row][col] == 7):
-                    idealRow = 2
-                    idealCol = 0
-
-                    mRow = abs(idealRow - row)
-                    mCol = abs(idealCol - col)
-
-                    manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 7 is: " + str(mRow+mCol))
+                    #print("Manhattan for 7 is: " + str(mRow+mCol))
 
                 elif(self.board[row][col] == 8):
-                    idealRow = 1
-                    idealCol = 0
+                    idealRow = 2
+                    idealCol = 2
 
                     mRow = abs(idealRow - row)
                     mCol = abs(idealCol - col)
 
                     manhattan = manhattan + mRow + mCol
-                    print("Manhattan for 8 is: " + str(mRow+mCol))
+                    #print("Manhattan for 8 is: " + str(mRow+mCol))
 
         return manhattan      
+
+    #Expects an inorder board with the hole in (0,0), then increasing across the row
+    def getManhattanGeneral(self):
+        expected = 0
+        manhattan_gen = 0
+        found_row = 0
+        found_col = 0
+
+        for row in range(len(self.board)):
+            for col in range(len(self.board[row])):
+                #print("Looking for " + str(expected) + "'s position, should be at " + str(row) + "," + str(col))
+
+                #find where it's currently located
+                for row_search in range(len(self.board)):
+                    for col_search in range(len(self.board[row])):
+                        value = self.getTile(row_search,col_search) #find the value at a single point in the puzzle
+
+                        if(value == expected): #if the value is what we want, save its location
+                            found_row = row_search
+                            found_col = col_search
+                            #print("Found it at " + str(found_row) + "," + str(found_col))
+                
+                manhattan_step = abs(found_row-row) + abs(found_col-col)
+                #print("Manhattan for " + str(expected) + " is " + str(manhattan_step))
+
+                if(expected == 0):
+                    manhattan_gen = manhattan_gen #don't count the 0 or we get stuck in a loop
+                else:
+                    manhattan_gen = manhattan_gen + abs(found_row - row) + abs(found_col - col)
+
+                expected = expected+1
+                #print("Manhattan total so far is " + str(manhattan_gen))
+        
+        return manhattan_gen
 
     #Takes in row and column, returns the value at that spot
     def getTile(self,row,col):

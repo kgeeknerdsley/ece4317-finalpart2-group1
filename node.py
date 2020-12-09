@@ -24,7 +24,7 @@ class Node:
 
     def getNextNode(self):
         nextMove = self.data.getBestNeighbor()
-        print("\nBest solution has Manhattan " + str(nextMove.getManhattan()))
+        print("\nBest solution has Manhattan " + str(nextMove.getManhattanGeneral()))
 
         return nextMove
 
