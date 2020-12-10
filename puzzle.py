@@ -232,3 +232,18 @@ class Puzzle:
             tempString += "\n"
 
         return tempString
+    
+    def checkIfSolvable8Puzzle(self):
+        tempString = ""
+        inversions = 0
+        for row in range(len(self.board)):
+            for col in range(len(self.board[row])):
+                tempString += str(self.board[col][row])
+        
+ 
+        for i in range(0,8):
+            for j in range(i,8):
+                if tempString[i] > tempString[j]:
+                    inversions += 1
+        print(inversions)
+        return (inversions % 2 == 0)

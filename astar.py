@@ -9,20 +9,22 @@ import time
 # 2) Assign next neighbor to node
 # 3) Set neighbor as current node, repeat to 1
 
-#initialPuzzle = Puzzle([[0,1,3],[4,2,5],[7,8,6]])
-#initialPuzzle = Puzzle([[1,2,3],[0,4,6],[7,5,8]])
-initialPuzzle = Puzzle([[2,8,3],[1,6,4],[7,0,5]]) #Assignment start state
+# initialPuzzle = Puzzle([[0,1,3],[4,2,5],[7,8,6]]) #bad puzzle 1
+# initialPuzzle = Puzzle([[1,8,2],[0,4,3],[7,6,5]]) #bad puzzle 2
+initialPuzzle = Puzzle([[2,8,3],[1,6,4],[7,0,5]]) #works
 initialNode = Node(initialPuzzle, None, [])
 foundSolution = False
 
 currentNode = initialNode
 boardsAttempted = 0
+solvable = currentNode.isSolvable()
 
 #start loop!
 while(not foundSolution):
     currentNode.printCurrentNode()
-
     isGoal = currentNode.isGoalNode() #check if our current node is the solution
+    if(solvable == False):
+        break
 
     if(isGoal): #if so, break out!
         print("Found solution! We outta here\n")

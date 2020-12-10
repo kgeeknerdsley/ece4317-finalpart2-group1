@@ -46,3 +46,11 @@ class Node:
     def getBoard(self):
         return self.data.getBoard()
     
+    def isSolvable(self):
+        solvable = self.data.checkIfSolvable8Puzzle()
+        if(solvable == True):
+            print("Solvable")
+        else:
+            print("Not Solvable")
+        return solvable
+    
