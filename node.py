@@ -47,7 +47,7 @@ class Node:
         return self.data.getBoard()
     
     def isSolvable(self):
-        solvable = self.data.checkIfSolvable8Puzzle()
+        solvable = self.data.checkIfSolvablePuzzle()
         if(solvable == True):
             print("Solvable")
         else:
