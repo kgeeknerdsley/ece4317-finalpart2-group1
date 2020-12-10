@@ -24,7 +24,7 @@ class Node:
 
     def getNextNode(self):
         nextMove = self.data.getBestNeighbor()
-        print("\nBest solution has Manhattan " + str(nextMove.getManhattan()))
+        print("\nBest solution has Manhattan " + str(nextMove.getManhattanGeneral()))
 
         return nextMove
 
@@ -45,4 +45,12 @@ class Node:
 
     def getBoard(self):
         return self.data.getBoard()
+    
+    def isSolvable(self):
+        solvable = self.data.checkIfSolvablePuzzle()
+        if(solvable == True):
+            print("Solvable")
+        else:
+            print("Not Solvable")
+        return solvable
     
