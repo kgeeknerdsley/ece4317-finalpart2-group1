@@ -14,8 +14,9 @@ class Puzzle:
         goalBoardInorder = [[1,2,3],[4,5,6],[7,8,0]] #inorder goal board
         goalBoardInorder2 = [[0,1,2],[3,4,5],[6,7,8]] #Used for final part 2, question 4
         goalBoardFifteen = [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
+        goalBoard5x5 = [[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24]]
 
-        return self.boardsEqual(goalBoardInorder2)
+        return self.boardsEqual(goalBoard5x5)
 
     #Takes in itself, returns list of possible moves to make
     #return type is Puzzle
